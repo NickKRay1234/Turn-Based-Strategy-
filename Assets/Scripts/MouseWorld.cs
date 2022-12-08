@@ -2,21 +2,26 @@ using UnityEngine;
 
 public class MouseWorld : MonoBehaviour
 {
-    private Camera _camera;
-    private RaycastHit _raycastHit;
     [SerializeField] private LayerMask _mousePlaneLayerMask;
-    private Ray _ray;
+    private static MouseWorld instance;
+    private static Camera _camera;
+
     private void Start()
     {
         _camera = Camera.main;
+        instance = this;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        Physics.Raycast(GetRay(), out _raycastHit, float.MaxValue, _mousePlaneLayerMask);
-        transform.position = _raycastHit.point;
+        transform.position = MouseWorld.GetPosition();
     }
-    
-    private Ray GetRay() => _camera.ScreenPointToRay(Input.mousePosition);
+
+    private static Vector3 GetPosition()
+    {
+        Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
+        Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, instance._mousePlaneLayerMask);
+        return raycastHit.point;
+    }
 }
  
