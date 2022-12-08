@@ -7,7 +7,11 @@ public class Unit : MonoBehaviour
     private const  float StoppingDistance = 0.1f;
     private const float Speed = 4.0f;
     [SerializeField] private Animator _unitAnimator;
-    
+
+    private void Awake()
+    {
+        _targetPosition = transform.position;
+    }
 
     private void Update()
     {
@@ -24,14 +28,10 @@ public class Unit : MonoBehaviour
         {
             _unitAnimator.SetBool("IsWalking", false);
         }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Move(MouseWorld.GetPosition());
-        }
+        
     }
 
-    private void Move(Vector3 targetPosition)
+    public void Move(Vector3 targetPosition)
     {
         _targetPosition = targetPosition;
     }
