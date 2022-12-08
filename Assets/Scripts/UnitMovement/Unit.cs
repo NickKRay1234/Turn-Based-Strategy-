@@ -6,6 +6,7 @@ public class Unit : MonoBehaviour
     private Vector3 _moveDirection;
     private const  float StoppingDistance = 0.1f;
     private const float Speed = 4.0f;
+    [SerializeField] private Animator _unitAnimator;
     
 
     private void Update()
@@ -14,6 +15,11 @@ public class Unit : MonoBehaviour
         {
             _moveDirection = (_targetPosition - transform.position).normalized;
             transform.position += _moveDirection * (Speed * Time.deltaTime);
+            _unitAnimator.SetBool("IsWalking", true);
+        }
+        else
+        {
+            _unitAnimator.SetBool("IsWalking", false);
         }
 
         if (Input.GetMouseButtonDown(0))
