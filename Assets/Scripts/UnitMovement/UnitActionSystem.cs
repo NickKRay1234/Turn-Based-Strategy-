@@ -1,31 +1,47 @@
 using UnityEngine;
+using System;
 
-public class UnitActionSystem : MonoBehaviour
+namespace UnitMovement
 {
-    [SerializeField] private Unit selectedUnit;
-    [SerializeField] private LayerMask _unitLayerMask;
-
-    private void Update()
+    public class UnitActionSystem : MonoBehaviour
     {
-        if (TryHandleUnitSelection()) return;
-        if (Input.GetMouseButtonDown(0))
-        {
-            selectedUnit.Move(MouseWorld.GetPosition());
-        }
-    }
+        public event EventHandler OnSelectedUnitChanged;
+        [SerializeField] private Unit selectedUnit;
+        [SerializeField] private LayerMask _unitLayerMask;
 
-    private bool TryHandleUnitSelection()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, _unitLayerMask))
+        private void Update()
         {
-            if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
+            if (TryHandleUnitSelection()) return;
+            if (Input.GetMouseButtonDown(0))
             {
-                selectedUnit = unit;
-                return true;
+                selectedUnit.Move(MouseWorld.GetPosition());
             }
-            
         }
-        return false;
+
+        private bool TryHandleUnitSelection()
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, _unitLayerMask))
+            {
+                if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
+                {
+                    selectedUnit = unit;
+                    return true;
+                }
+            
+            }
+            return false;
+        }
+
+        private void SetSelectedUnit(Unit unit)
+        {
+            selectedUnit = unit;
+            OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public Unit GetSelectedUnit()
+        {
+            return selectedUnit;
+        }
     }
 }
