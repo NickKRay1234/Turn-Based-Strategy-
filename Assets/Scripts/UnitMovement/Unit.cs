@@ -1,38 +1,41 @@
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+namespace UnitMovement
 {
-    private Vector3 _targetPosition;
-    private Vector3 _moveDirection;
-    private const  float StoppingDistance = 0.1f;
-    private const float Speed = 4.0f;
-    [SerializeField] private Animator _unitAnimator;
-
-    private void Awake()
+    public class Unit : MonoBehaviour
     {
-        _targetPosition = transform.position;
-    }
+        private Vector3 _targetPosition;
+        private Vector3 _moveDirection;
+        private const  float StoppingDistance = 0.1f;
+        private const float Speed = 4.0f;
+        [SerializeField] private Animator _unitAnimator;
 
-    private void Update()
-    {
-        if (Vector3.Distance(transform.position, _targetPosition) > StoppingDistance)
+        private void Awake()
         {
-            _moveDirection = (_targetPosition - transform.position).normalized;
-            transform.position += _moveDirection * (Speed * Time.deltaTime);
-            //transform.forward = _moveDirection;
-            float rotateSpeed = 10f;
-            transform.forward = Vector3.Lerp(transform.forward, _moveDirection, Time.deltaTime * rotateSpeed);
-            _unitAnimator.SetBool("IsWalking", true);
+            _targetPosition = transform.position;
         }
-        else
+
+        private void Update()
         {
-            _unitAnimator.SetBool("IsWalking", false);
-        }
+            if (Vector3.Distance(transform.position, _targetPosition) > StoppingDistance)
+            {
+                _moveDirection = (_targetPosition - transform.position).normalized;
+                transform.position += _moveDirection * (Speed * Time.deltaTime);
+                //transform.forward = _moveDirection;
+                float rotateSpeed = 10f;
+                transform.forward = Vector3.Lerp(transform.forward, _moveDirection, Time.deltaTime * rotateSpeed);
+                _unitAnimator.SetBool("IsWalking", true);
+            }
+            else
+            {
+                _unitAnimator.SetBool("IsWalking", false);
+            }
         
-    }
+        }
 
-    public void Move(Vector3 targetPosition)
-    {
-        _targetPosition = targetPosition;
+        public void Move(Vector3 targetPosition)
+        {
+            _targetPosition = targetPosition;
+        }
     }
 }

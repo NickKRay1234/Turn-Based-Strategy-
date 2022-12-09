@@ -5,15 +5,30 @@ namespace UnitMovement
 {
     public class UnitActionSystem : MonoBehaviour
     {
+
+        public static UnitActionSystem Instance { get; private set; }
         public event EventHandler OnSelectedUnitChanged;
         [SerializeField] private Unit selectedUnit;
         [SerializeField] private LayerMask _unitLayerMask;
 
+
+        private void Awake()
+        {
+            if (Instance != null)
+            {
+                Debug.LogError("There's more than one UnitActionSystem! " + transform + "-" + Instance);
+                Destroy(gameObject);
+                return;
+            }
+            Instance = this;
+        }
+
+
         private void Update()
         {
-            if (TryHandleUnitSelection()) return;
             if (Input.GetMouseButtonDown(0))
             {
+                if (TryHandleUnitSelection()) return;
                 selectedUnit.Move(MouseWorld.GetPosition());
             }
         }
@@ -25,10 +40,9 @@ namespace UnitMovement
             {
                 if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
                 {
-                    selectedUnit = unit;
+                    SetSelectedUnit(unit);
                     return true;
                 }
-            
             }
             return false;
         }
