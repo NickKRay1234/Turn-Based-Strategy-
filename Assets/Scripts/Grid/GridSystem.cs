@@ -5,6 +5,7 @@ public class GridSystem
     private int _width;
     private int _height;
     private float _cellSize;
+    private GridObject[,] gridObjectArray;
     
     public GridSystem(int width, int height, float cellSize)
     {
@@ -12,11 +13,13 @@ public class GridSystem
         _height = height;
         _cellSize = cellSize;
 
+        gridObjectArray = new GridObject[_width, _height];
         for (int x = 0; x < _width; x++)
         {
             for (int z = 0; z < _height; z++)
             {
-                Debug.DrawLine(GetWorldPosition(x,z), GetWorldPosition(x,z) + Vector3.right * .2f, Color.white, 1000);
+                GridPosition gridPosition = new GridPosition(x, z);
+                gridObjectArray[x,z] = new GridObject(this, gridPosition);
             }
         }
     }
@@ -30,5 +33,10 @@ public class GridSystem
     {
         return new GridPosition(Mathf.RoundToInt(worldPosition.x / _cellSize),
             Mathf.RoundToInt(worldPosition.z / _cellSize));
+    }
+
+    public void CreateDebugObjects(Transform debugPrefab)
+    {
+        
     }
 }
