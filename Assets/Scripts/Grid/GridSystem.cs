@@ -37,6 +37,12 @@ public class GridSystem
 
     public void CreateDebugObjects(Transform debugPrefab)
     {
-        
+        for (int x = 0; x < _width; x++)
+        {
+            for (int z = 0; z < _height; z++)
+            {
+               GameObject.Instantiate(debugPrefab, GetWorldPosition(x, z), Quaternion.identity);
+            }
+        }
     }
 }
