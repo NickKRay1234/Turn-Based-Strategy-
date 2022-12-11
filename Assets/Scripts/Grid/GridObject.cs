@@ -10,5 +10,10 @@ public class GridObject : MonoBehaviour
         _gridPosition = gridPosition;
         _gridSystem = gridSystem;
     }
-    
+
+    public override string ToString()
+    {
+        return _gridPosition.ToString();
+    }
+
 }
