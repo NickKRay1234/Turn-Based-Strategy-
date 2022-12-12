@@ -5,6 +5,7 @@ namespace UnitMovement
     public class Unit : MonoBehaviour
     {
         private Vector3 _targetPosition;
+        private GridPosition _gridPosition;
         private Vector3 _moveDirection;
         private const  float StoppingDistance = 0.1f;
         private const float Speed = 4.0f;
@@ -13,6 +14,12 @@ namespace UnitMovement
         private void Awake()
         {
             _targetPosition = transform.position;
+        }
+
+        private void Start()
+        {
+            _gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+            LevelGrid.Instance.SetUnitAtGridPosition(_gridPosition, this);
         }
 
         private void Update()
@@ -30,7 +37,15 @@ namespace UnitMovement
             {
                 _unitAnimator.SetBool("IsWalking", false);
             }
-        
+
+            GridPosition newGridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+            if (newGridPosition != _gridPosition)
+            {
+                // Unit changed Grid Position
+                LevelGrid.Instance.UnitMovedGridPosition(this, _gridPosition, newGridPosition);
+                _gridPosition = newGridPosition;
+            }
+            
         }
 
         public void Move(Vector3 targetPosition)
