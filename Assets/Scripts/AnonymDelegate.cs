@@ -23,5 +23,9 @@ public class AnonymDelegate : MonoBehaviour
     {
         _test = count(3);
         print("Sum: " + _test);
+        _test = count(5);
+        print("Sum: " + _test);
     }
+
+    public void Text() => print("Text");
 }
