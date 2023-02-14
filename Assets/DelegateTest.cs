@@ -1,29 +1,21 @@
 using UnityEngine;
 
-// Делегаты - это указатели на методы.
-
-delegate void Message();
+delegate int Operation(int x, int y);
 public class DelegateTest : MonoBehaviour
 {
-    // Объявление делегата
-    void Hello() => print("Hello World");
-
-    private void Awake()
-    {
-        Message _message = new Message(Hello);
-        _message();
-    }
+    private Operation operation;
+    private int _result;
+    int Add(int x, int y) => x + y;
+    int Multiply(int x, int y) => x * y;
     
-    // Делегаты необязательно могут указывать только на методы, которые определены
-    // В том же классе, где определена переменная делегата. Это могут быть также методы
-    // из других классов и структур.
+    
 
     private void Start()
     {
-        Message _message = GetComponent<AnonymDelegate>().Text;
-        _message();
+        operation += Add;
+        operation += Multiply;
+        _result += operation(4, 5);
+        print(_result);
+        print(operation.GetInvocationList().Length);
     }
-    
-    // Делегаты можно определять в конце кода, но в принципе делегат можно определить
-    // внутри класса. 
 }

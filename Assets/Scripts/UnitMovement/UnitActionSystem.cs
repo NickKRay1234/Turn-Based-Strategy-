@@ -53,9 +53,6 @@ namespace UnitMovement
             OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public Unit GetSelectedUnit()
-        {
-            return selectedUnit;
-        }
+        public Unit GetSelectedUnit() => selectedUnit;
     }
 }

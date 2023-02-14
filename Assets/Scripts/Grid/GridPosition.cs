@@ -1,35 +1,28 @@
 using System;
 
-public struct GridPosition : IEquatable<GridPosition>
+public readonly struct GridPosition : IEquatable<GridPosition>
 {
-    public bool Equals(GridPosition other)
-    {
-        return this == other;
-    }
-
-    public override bool Equals(object obj)
-    {
-        return obj is GridPosition other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(x, z);
-    }
-
-    public int x;
-    public int z;
-
+    public readonly int x;
+    public readonly int z;
+    
     public GridPosition(int x, int z)
     {
         this.x = x;
         this.z = z;
     }
+    
+    public bool Equals(GridPosition other) => this == other;
 
-    public override string ToString()
+    public override bool Equals(object obj)
     {
-        return "x: " + x + "; z: " + z;
+        return obj is GridPosition position &&
+               x == position.x &&
+               z == position.z;
     }
+
+    public override int GetHashCode() => HashCode.Combine(x, z);
+
+    public override string ToString() => $"x: {x}; z: {z}";
 
     public static bool operator ==(GridPosition a, GridPosition b)
     {
