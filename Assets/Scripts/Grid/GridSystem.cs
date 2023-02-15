@@ -24,7 +24,7 @@ public sealed class GridSystem
         }
     }
 
-    private Vector3 GetWorldPosition(GridPosition gridPosition) =>
+    public Vector3 GetWorldPosition(GridPosition gridPosition) =>
         new Vector3(gridPosition.x, 0, gridPosition.z) * _cellSize;
 
     public GridPosition GetGridPosition(Vector3 worldPosition) =>
@@ -46,4 +46,10 @@ public sealed class GridSystem
             }
         }
     }
+
+    public bool IsValidGridPosition(GridPosition gridPosition) =>
+        gridPosition.x >= 0 &&
+        gridPosition.z >= 0 &&
+        gridPosition.x < _width &&
+        gridPosition.z < _height;
 }
