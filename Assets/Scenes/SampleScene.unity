@@ -800,7 +800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unitAnimator: {fileID: 567476940}
-  maxMoveDistance: 4
+  maxMoveDistance: 2
 --- !u!1 &663463878
 GameObject:
   m_ObjectHideFlags: 0
@@ -1027,7 +1027,7 @@ PrefabInstance:
     - target: {fileID: 2612224927787183297, guid: 254c781bd0728774ba0f45a38509a196,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2613079574534875599, guid: 254c781bd0728774ba0f45a38509a196,
         type: 3}
