@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 namespace Actions
 {
@@ -6,6 +7,7 @@ namespace Actions
     {
         protected Unit _unit;
         protected bool isActive;
+        protected Action onActionComplete;
 
         protected virtual void Awake()
         {

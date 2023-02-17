@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 namespace Actions
 {
@@ -12,10 +13,15 @@ namespace Actions
             transform.eulerAngles += new Vector3(0, spinAddAmount,0);
 
             _totalSpinAmount += spinAddAmount;
-            if (_totalSpinAmount >= 360f) isActive = false;
+            if (_totalSpinAmount >= 360f)
+            {
+                isActive = false;
+                onActionComplete();
+            }
         }
-        public void Spin()
+        public void Spin(Action onActionComplete)
         {
+            this.onActionComplete = onActionComplete;
             isActive = true;
             _totalSpinAmount = 0f;
         }

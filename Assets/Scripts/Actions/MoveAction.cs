@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Actions
 {
@@ -33,14 +34,16 @@ namespace Actions
             {
                 _unitAnimator.SetBool(IsWalking, false);
                 isActive = false;
+                onActionComplete();
             }
 
             float rotateSpeed = 10f;
             transform.forward = Vector3.Lerp(transform.forward, _moveDirection, Time.deltaTime * rotateSpeed);
         }
     
-        public void Move(GridPosition gridPosition)
+        public void Move(GridPosition gridPosition, Action onActionComplete)
         {
+            this.onActionComplete = onActionComplete;
             _targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
             isActive = true;
         }
