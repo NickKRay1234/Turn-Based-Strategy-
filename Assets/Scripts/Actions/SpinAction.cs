@@ -25,5 +25,7 @@ namespace Actions
             isActive = true;
             _totalSpinAmount = 0f;
         }
+
+        public override string GetActionName() => "Spin";
     }
 }
