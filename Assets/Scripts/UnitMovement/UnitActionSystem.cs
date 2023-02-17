@@ -9,6 +9,7 @@ public class UnitActionSystem : MonoBehaviour
 
     public static UnitActionSystem Instance { get; private set; }
     public event EventHandler OnSelectedUnitChanged;
+    public event EventHandler OnSelectedActionChanged;
     [SerializeField] private Unit _selectedUnit;
     [SerializeField] private LayerMask _unitLayerMask;
     private BaseAction _selectedAction;
@@ -44,13 +45,9 @@ public class UnitActionSystem : MonoBehaviour
             Ray ray = _camera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, _unitLayerMask))
             {
-                if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
+                if (raycastHit.transform.TryGetComponent(out Unit unit))
                 {
-                    if (unit == _selectedUnit)
-                    {
-                        // Unit is already selected;
-                        return false;
-                    }
+                    if (unit == _selectedUnit) return false;
                     SetSelectedUnit(unit);
                     return true;
                 }
@@ -85,7 +82,12 @@ public class UnitActionSystem : MonoBehaviour
         }
     }
 
-    public void SetSelectedAction(BaseAction baseAction) => _selectedAction = baseAction;
+    public void SetSelectedAction(BaseAction baseAction)
+    {
+        _selectedAction = baseAction;
+        OnSelectedActionChanged?.Invoke(this, EventArgs.Empty);
+    }
+
     public Unit GetSelectedUnit() => _selectedUnit;
     public BaseAction GetSelectedAction() => _selectedAction;
 }
