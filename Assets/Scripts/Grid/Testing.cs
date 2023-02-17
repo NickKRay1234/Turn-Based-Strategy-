@@ -6,7 +6,10 @@ public class Testing : MonoBehaviour
 
     private void Update()
     {
-        GridSystemVisual.Instance.HideAllGridPosition();
-        GridSystemVisual.Instance.ShowGridPositionList(_unit.GetMoveAction().GetValidActionGridPositionList());
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            GridSystemVisual.Instance.HideAllGridPosition();
+            GridSystemVisual.Instance.ShowGridPositionList(_unit.GetMoveAction().GetValidActionGridPositionList());
+        }
     }
 }

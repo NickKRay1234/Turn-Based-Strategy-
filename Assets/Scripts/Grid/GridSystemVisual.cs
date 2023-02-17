@@ -47,5 +47,18 @@ public class GridSystemVisual : MonoBehaviour
     {
         foreach (GridPosition gridPosition in gridPositionList)
             _gridSystemVisualSingleArray[gridPosition.x, gridPosition.z].Show();
+
+    }
+
+    private void Update()
+    {
+        UpdateGridVisual();
+    }
+
+    private void UpdateGridVisual()
+    {
+        HideAllGridPosition();
+        Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
+        ShowGridPositionList(selectedUnit.GetMoveAction().GetValidActionGridPositionList());
     }
 }
