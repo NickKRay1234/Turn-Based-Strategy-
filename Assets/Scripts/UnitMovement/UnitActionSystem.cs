@@ -2,6 +2,7 @@ using System;
 using Actions;
 using UnitMovement;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UnitActionSystem : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class UnitActionSystem : MonoBehaviour
     private void Update()
     {
         if(isBusy) return;
+        if (EventSystem.current.IsPointerOverGameObject()) return;
         if (TryHandleUnitSelection()) return;
         HandleSelectedAction();
     }
@@ -44,6 +46,11 @@ public class UnitActionSystem : MonoBehaviour
             {
                 if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
                 {
+                    if (unit == _selectedUnit)
+                    {
+                        // Unit is already selected;
+                        return false;
+                    }
                     SetSelectedUnit(unit);
                     return true;
                 }
@@ -70,24 +77,15 @@ public class UnitActionSystem : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
-            switch (_selectedAction)
+            if (_selectedAction.IsValidActionGridPosition(mouseGridPosition))
             {
-                case MoveAction moveAction:
-                    if (moveAction.IsValidActionGridPosition(mouseGridPosition))
-                    {
-                        SetBusy();
-                        moveAction.Move(mouseGridPosition, ClearBusy);
-                    }
-                    break;
-                case SpinAction spinAction:
-                    SetBusy();
-                    spinAction.Spin(ClearBusy);
-                    break;
+                SetBusy();
+                _selectedAction.TakeAction(mouseGridPosition, ClearBusy);
             }
         }
     }
 
     public void SetSelectedAction(BaseAction baseAction) => _selectedAction = baseAction;
-
     public Unit GetSelectedUnit() => _selectedUnit;
+    public BaseAction GetSelectedAction() => _selectedAction;
 }
