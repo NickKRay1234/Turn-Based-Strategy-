@@ -25,5 +25,7 @@ namespace Actions
         }
 
         public abstract List<GridPosition> GetValidActionGridPositionList();
+
+        public virtual int GetActionPointsCost() => 1;
     }
 }
