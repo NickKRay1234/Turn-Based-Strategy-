@@ -48,7 +48,6 @@ public class GridSystemVisual : MonoBehaviour
     {
         foreach (GridPosition gridPosition in gridPositionList)
             _gridSystemVisualSingleArray[gridPosition.x, gridPosition.z].Show();
-
     }
 
     private void Update()

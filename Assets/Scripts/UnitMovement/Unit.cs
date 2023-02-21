@@ -54,4 +54,6 @@ public class Unit : MonoBehaviour
 
         private void SpendActionPoints(int amount) =>
             _actionPoints -= amount;
+
+        public int GetActionPoints() => _actionPoints;
     }
