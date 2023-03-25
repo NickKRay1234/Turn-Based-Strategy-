@@ -5,6 +5,7 @@ public class TurnSystem : MonoBehaviour
 {
     public static TurnSystem Instance { get; private set; }
     private int _turnNumber;
+    private bool isPlayerTurn = true;
 
     public event EventHandler OnTurnChanged; 
 
@@ -22,8 +23,12 @@ public class TurnSystem : MonoBehaviour
     public void NextTurn()
     {
         _turnNumber++;
+        isPlayerTurn = !isPlayerTurn;
         OnTurnChanged?.Invoke(this, EventArgs.Empty);
     }
+
+    public bool IsPlayerTurn() => isPlayerTurn;
+
 
     public int GetTurnNumber() => _turnNumber;
 }
